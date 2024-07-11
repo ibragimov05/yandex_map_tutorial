@@ -3,9 +3,9 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class YandexMapService {
   static Future<List<MapObject>> getDirection(
-      Point from,
-      Point to,
-      ) async {
+    Point from,
+    Point to,
+  ) async {
     final result = await YandexDriving.requestRoutes(
       points: [
         RequestPoint(point: from, requestPointType: RequestPointType.wayPoint),
@@ -13,7 +13,7 @@ class YandexMapService {
       ],
       drivingOptions: const DrivingOptions(
         initialAzimuth: 1,
-        routesCount: 1,
+        routesCount: 2,
         avoidTolls: true,
       ),
     );
@@ -24,13 +24,32 @@ class YandexMapService {
       return [];
     }
 
-    final points = drivingResults.routes!.map((route) {
-      return PolylineMapObject(
+    final routes = drivingResults.routes!.take(2).toList();
+    final List<MapObject> polyLines = [];
+    if (routes.isNotEmpty) {
+      final polyline1 = PolylineMapObject(
         mapId: MapObjectId(UniqueKey().toString()),
-        polyline: route.geometry,
+        polyline: Polyline(
+          points: routes[0].geometry.points,
+        ),
+        strokeColor: Colors.red,
+        strokeWidth: 5.0,
       );
-    }).toList();
+      polyLines.add(polyline1);
+    }
 
-    return points;
+    if (routes.length > 1) {
+      final polyline2 = PolylineMapObject(
+        mapId: MapObjectId(UniqueKey().toString()),
+        polyline: Polyline(
+          points: routes[1].geometry.points,
+        ),
+        strokeColor: Colors.blue,
+        strokeWidth: 5.0,
+      );
+      polyLines.add(polyline2);
+    }
+
+    return polyLines;
   }
 }

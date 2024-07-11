@@ -64,7 +64,6 @@ class _MapScreenState extends State<MapScreen> {
         setState(() {});
       },
     );
-
   }
 
   @override
@@ -100,12 +99,6 @@ class _MapScreenState extends State<MapScreen> {
 
     return await resultWithSession.$2;
   }
-
-  // void _onCameraPositionChanged(
-  //   CameraPosition position,
-  //   CameraUpdateReason reason,
-  //   bool isFinished,
-  // ) {}
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +171,7 @@ class _MapScreenState extends State<MapScreen> {
               backgroundColor: const Color(0xFF1C1D22),
               onPressed: _onMyLocationTapped,
               child: const Icon(
-                Icons.location_on,
+                Icons.navigation_outlined,
                 color: Color(0xFFCCCCCC),
               ),
             ),
@@ -200,16 +193,15 @@ class _MapScreenState extends State<MapScreen> {
           SizedBox(
             height: _suggestionList.isNotEmpty ? 200 : 0,
             child: ListView.builder(
-              itemCount: _suggestionList.length,
+              itemCount:   _suggestionList.length,
               itemBuilder: (context, index) {
-                // SuggestItem
                 return Container(
                   height: 50,
                   margin: const EdgeInsets.all(10),
                   child: Row(
                     children: [
                       Text(
-                        _suggestionList[index].subtitle,
+                        _suggestionList[index].subtitle.toString(),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
